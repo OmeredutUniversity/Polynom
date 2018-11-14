@@ -4,6 +4,9 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.function.Predicate;
 
+import de.erichseifert.gral.data.DataTable;
+
+
  //import myMath.Monom;
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
@@ -249,30 +252,20 @@ public class Polynom implements Polynom_able{
 
     /**
      * Calculate the area of this polynom between x0 and x1 in relative of eps
-     * @param x0
-     * @param x1
-     * @param eps
+     * @param x0 start range
+     * @param x1 end range
+     * @param eps is epsilon
      * @return the area of this polynom between x0 and x1 in relaive of eps
      */
     @Override
     public double area(double x0, double x1, double eps) {
-        double min = x0;
-        double max = x1;
-        if (x1 < x0){
-            min = x1;
-            max = x0;
-        }
         double area = 0;
-        double halfEps = eps/2;
-        while (min <= max){
-            double fx = f(min+halfEps);
-            if (fx > 0) {
-            		area += (eps*fx);
-            }
-            min += eps;
-        }
+        area += negativeArea(x0, x1, eps);
+        area += positiveArea(x0, x1, eps);
         return area;
     }
+
+    
 
 
     /**
@@ -297,6 +290,18 @@ public class Polynom implements Polynom_able{
         }
         return result;
     }
+    
+    
+    /**
+     * show polynom on table between given range and his extreme point.
+     * @param startRange the start of the range to show
+     * @param endRange the end of the range to show
+     */
+    public void showPolynom(double startRange, double endRange){
+        LinePlot frame = new LinePlot(this, startRange, endRange);
+        frame.setVisible(true);
+    }
+    
 
 
     /**
@@ -385,5 +390,66 @@ public class Polynom implements Polynom_able{
         polynom = null;
         polynom = new ArrayList<Monom>();
     }
+    
+    
+    
+    /**
+     * this method calculate the area of positive range in polynom
+     * @param x0 start range
+     * @param x1 end range
+     * @param eps is epsilon
+     * @return the area of positive range in polynom
+     */
+    private double positiveArea(double x0, double x1, double eps){
+        double min = x0;
+        double max = x1;
+        if (x1 < x0){
+            min = x1;
+            max = x0;
+        }
+        double area = 0;
+        double halfEps = eps/2;
+        while (min <= max){
+            double fx = f(min+halfEps);
+            if (fx > 0) {
+                area += (eps * fx);
+            }
+            min += eps;
+        }
+        return area;
+    }
+    
+    /**
+     * this method calculate the area of negative range in polynom
+     * @param x0 start range
+     * @param x1 end range
+     * @param eps is epsilon
+     * @return the area of negative range in polynom
+     */
+    private double negativeArea(double x0, double x1, double eps){
+        double min = x0;
+        double max = x1;
+        if (x1 < x0){
+            min = x1;
+            max = x0;
+        }
+        double area = 0;
+        double halfEps = eps/2;
+        while (min <= max){
+            double fx = f(min+halfEps);
+            if (fx < 0) {
+                area += (eps * fx);
+            }
+            min += eps;
+        }
+        return Math.abs(area);
+    }
+    
+    
+
+    
+    
+    
+    
 	
 }

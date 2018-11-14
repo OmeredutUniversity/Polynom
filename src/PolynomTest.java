@@ -117,10 +117,19 @@ public class PolynomTest {
 	public final void testF() {
 		System.out.println("p1.f(6) = " + p1.f(6));
 	}
+	
+	@Test
+	public final void testShowPolynom() {
+		Polynom p = new Polynom("0.2*x^4-1.5*x^3+3.0*x^2-1*x^1-5*x^0");
+		p.showPolynom(-2, 6);
+		System.out.println(p.area(-2, 6, 0.01));
+	}
 
 	@Test
 	public final void testToString() {
 		System.out.println(p1.toString());
 	}
+	
+	
 
 }
